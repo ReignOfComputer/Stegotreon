@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net.Mail;
+using System.Net;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Stegotreon
 {
@@ -22,12 +23,16 @@ namespace Stegotreon
         private bool StegoTypeGUIDorPlaintext = true;
         private bool OutputTypeFoldersorFiles = true;
         private int NamingType = 0; // 0 = Original, 1 = Name, 2 = GUID
+        private string imgDirEmail = "";
+        private List<string> invalidEmails = new List<string>();
+        private Dictionary<string, string> readyEmail = new Dictionary<string, string>();
+
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void Button_Embed_Click(object sender, EventArgs e)
+        private async void Button_Embed_Click(object sender, EventArgs e)
         {
             var StegoList = File.ReadAllLines(@TextBox_StegoListDir.Text);
             int TotalNumber = StegoList.Count();
@@ -41,104 +46,107 @@ namespace Stegotreon
                     file.WriteLine("User:GUID");
                 }
             }
-            
+
             foreach (string stego in StegoList)
             {
-                MainImage = new Bitmap(@TextBox_ImageFileDir.Text);
-                string CurrentName = stego;
-                char[] CurrentNameArray = CurrentName.ToArray();
-                string EncryptText = "";
-                string CurrentGUID = "";
-
-                if (StegoTypeGUIDorPlaintext)
+                await Task.Run(() =>
                 {
-                    CurrentGUID = Guid.NewGuid().ToString();
-                    EncryptText = CurrentGUID;
-                    CurrentNameArray = CurrentGUID.ToArray();
-                }
-                else
-                {
-                    EncryptText = CurrentName;
-                }
+                    MainImage = new Bitmap(@TextBox_ImageFileDir.Text);
+                    string CurrentName = stego;
+                    char[] CurrentNameArray = CurrentName.ToArray();
+                    string EncryptText = "";
+                    string CurrentGUID = "";
 
-                #region IMG-Stego Logic
-                string[] type = new string[] { "t", "t", "1" };
-
-                for (int j = 0; j < 3; j++)
-                {
-                    Color pixel = MainImage.GetPixel(MainImage.Width - j - 1, MainImage.Height - 1);
-                    pixel = embed(pixel, getStringBits(type[j]));
-                    MainImage.SetPixel(MainImage.Width - j - 1, MainImage.Height - 1, pixel);
-                }
-
-                string a = Convert.ToString(EncryptText.Length);
-                a = a.PadLeft(13, '0');
-                char[] b = a.ToArray();
-
-                for (int j = 3; j < 16; j++)
-                {
-                    string aString = Convert.ToString(b[j - 3]);
-                    Color pixel = MainImage.GetPixel(MainImage.Width - j - 1, MainImage.Height - 1);
-                    pixel = embed(pixel, getStringBits(aString));
-                    MainImage.SetPixel(MainImage.Width - j - 1, MainImage.Height - 1, pixel);
-                }
-
-                int k = 0;
-
-                for (int i = 0; i < MainImage.Height; i++)
-                {
-                    for (int j = 0; j < MainImage.Width; j++)
+                    if (StegoTypeGUIDorPlaintext)
                     {
-                        if (k < EncryptText.Length)
+                        CurrentGUID = Guid.NewGuid().ToString();
+                        EncryptText = CurrentGUID;
+                        CurrentNameArray = CurrentGUID.ToArray();
+                    }
+                    else
+                    {
+                        EncryptText = CurrentName;
+                    }
+
+                    #region IMG-Stego Logic
+                    string[] type = new string[] { "t", "t", "1" };
+
+                    for (int j = 0; j < 3; j++)
+                    {
+                        Color pixel = MainImage.GetPixel(MainImage.Width - j - 1, MainImage.Height - 1);
+                        pixel = embed(pixel, getStringBits(type[j]));
+                        MainImage.SetPixel(MainImage.Width - j - 1, MainImage.Height - 1, pixel);
+                    }
+
+                    string a = Convert.ToString(EncryptText.Length);
+                    a = a.PadLeft(13, '0');
+                    char[] b = a.ToArray();
+
+                    for (int j = 3; j < 16; j++)
+                    {
+                        string aString = Convert.ToString(b[j - 3]);
+                        Color pixel = MainImage.GetPixel(MainImage.Width - j - 1, MainImage.Height - 1);
+                        pixel = embed(pixel, getStringBits(aString));
+                        MainImage.SetPixel(MainImage.Width - j - 1, MainImage.Height - 1, pixel);
+                    }
+
+                    int k = 0;
+
+                    for (int i = 0; i < MainImage.Height; i++)
+                    {
+                        for (int j = 0; j < MainImage.Width; j++)
                         {
-                            string msg = Convert.ToString(CurrentNameArray[i + j]);
-                            Color pixel = MainImage.GetPixel(j, i);
-                            pixel = embed(pixel, getStringBits(msg));
-                            MainImage.SetPixel(j, i, pixel);
-                            k++;
+                            if (k < EncryptText.Length)
+                            {
+                                string msg = Convert.ToString(CurrentNameArray[i + j]);
+                                Color pixel = MainImage.GetPixel(j, i);
+                                pixel = embed(pixel, getStringBits(msg));
+                                MainImage.SetPixel(j, i, pixel);
+                                k++;
+                            }
                         }
                     }
-                }
-                #endregion
+                    #endregion
 
-                string SavePath = "";
+                    string SavePath = "";
 
-                if (OutputTypeFoldersorFiles)
-                {
-                    Directory.CreateDirectory(TextBox_DirectoryDir.Text + CurrentName);
-                    SavePath = TextBox_DirectoryDir.Text + CurrentName + "\\";
-                }
-                else
-                {
-                    SavePath = TextBox_DirectoryDir.Text;
-                }
-
-                string HoldPath = TextBox_ImageFileDir.Text.Substring(TextBox_ImageFileDir.Text.LastIndexOf("\\"));
-
-                if (NamingType == 0)
-                    SavePath += HoldPath;
-                else if (NamingType == 1)
-                    SavePath += HoldPath.Substring(0, HoldPath.Length - 4) + "_" + CurrentName + ".png";
-                else
-                    SavePath += HoldPath.Substring(0, HoldPath.Length - 4) + "_" + EncryptText.Substring(0, 8) + ".png";
-
-                try
-                {
-                    MainImage.Save(SavePath);
-                }
-                catch (IOException ioe)
-                {
-                    MessageBox.Show("Error while writing file!" + ioe.Message);
-                }
-
-                if (StegoTypeGUIDorPlaintext)
-                {
-                    using (System.IO.StreamWriter file =
-                new System.IO.StreamWriter(@TextBox_DirectoryDir.Text + "GUIDLookup.txt", true))
+                    if (OutputTypeFoldersorFiles)
                     {
-                        file.WriteLine(CurrentName + ":" + CurrentGUID);
+                        Directory.CreateDirectory(TextBox_DirectoryDir.Text + CurrentName);
+                        SavePath = TextBox_DirectoryDir.Text + CurrentName + "\\";
                     }
-                }
+                    else
+                    {
+                        SavePath = TextBox_DirectoryDir.Text;
+                    }
+
+                    string HoldPath = TextBox_ImageFileDir.Text.Substring(TextBox_ImageFileDir.Text.LastIndexOf("\\"));
+
+                    if (NamingType == 0)
+                        SavePath += HoldPath;
+                    else if (NamingType == 1)
+                        SavePath += HoldPath.Substring(0, HoldPath.Length - 4) + "_" + CurrentName + ".png";
+                    else
+                        SavePath += HoldPath.Substring(0, HoldPath.Length - 4) + "_" + EncryptText.Substring(0, 8) + ".png";
+
+                    try
+                    {
+                        MainImage.Save(SavePath);
+                    }
+                    catch (IOException ioe)
+                    {
+                        MessageBox.Show("Error while writing file!" + ioe.Message);
+                    }
+
+                    if (StegoTypeGUIDorPlaintext)
+                    {
+                        using (System.IO.StreamWriter file =
+                    new System.IO.StreamWriter(@TextBox_DirectoryDir.Text + "GUIDLookup.txt", true))
+                        {
+                            file.WriteLine(CurrentName + ":" + CurrentGUID);
+                        }
+                    }
+                });
 
                 Completed++;
                 EmbedProgressBar.Value = (Completed / TotalNumber * 100);
@@ -367,6 +375,227 @@ namespace Stegotreon
             byte[] bitsArray = boolarray.Select(bit => (byte)(bit ? 1 : 0)).ToArray();
             Array.Reverse(bitsArray);
             return bitsArray;
+        }
+        #endregion
+
+        #region Email Logic
+        private void Button_ImageFileEmail_Click(object sender, EventArgs e)
+        {
+            ofd = new OpenFileDialog();
+            ofd.Filter = "PNG (*.png)|*.png";
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                TextBox_ImageFileDirEmail.Text = ofd.FileName;
+                imgDirEmail = ofd.FileName.Substring(0, ofd.FileName.LastIndexOf("\\") + 1);
+            }
+        }
+
+        private void Button_EmailList_Click(object sender, EventArgs e)
+        {
+            ofd = new OpenFileDialog();
+            ofd.Filter = "Text File (*.txt)|*.txt";
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                TextBox_StegoListDirEmail.Text = ofd.FileName;
+            }
+        }
+
+        private async void Button_EmailSend_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(TextBox_SMTPServer.Text) || string.IsNullOrWhiteSpace(TextBox_SMTPPort.Text)
+                || string.IsNullOrWhiteSpace(TextBox_SMTPUsername.Text) || string.IsNullOrWhiteSpace(TextBox_SMTPPassword.Text)
+                || string.IsNullOrWhiteSpace(TextBox_ImageFileDirEmail.Text) || string.IsNullOrWhiteSpace(TextBox_StegoListDirEmail.Text)
+                || string.IsNullOrWhiteSpace(TextBox_Email_Subject.Text) || string.IsNullOrWhiteSpace(TextBox_Email_Body.Text))
+            {
+                MessageBox.Show("Information Missing!");
+            }
+            else
+            {
+                GroupBox_Email_Email.Enabled = false;
+                GroupBox_Email_ImageData.Enabled = false;
+                GroupBox_Email_Login.Enabled = false;
+                Label_Progress.Text = "Status: Setting Up...";
+                SmtpClient client = new SmtpClient();
+                client.Host = TextBox_SMTPServer.Text;
+                client.Port = int.Parse(TextBox_SMTPPort.Text);
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.Credentials = new NetworkCredential(TextBox_SMTPUsername.Text, TextBox_SMTPPassword.Text);
+                client.EnableSsl = true;
+
+                Label_Progress.Text = "Status: Checking Emails...";
+                List<string> EmailList = File.ReadAllLines(@TextBox_StegoListDirEmail.Text).ToList();
+                EmailList.RemoveAll(EmailInvalid);
+                if (invalidEmails.Count > 0)
+                {
+                    foreach (string email in invalidEmails)
+                    {
+                        MessageBox.Show("Ignoring Invalid Email: " + email);
+                    }
+                }
+
+                if (EmailList.Count == 0)
+                {
+                    MessageBox.Show("No emails to send to!");
+                    GroupBox_Email_Email.Enabled = true;
+                    GroupBox_Email_ImageData.Enabled = true;
+                    GroupBox_Email_Login.Enabled = true;
+                    return;
+                }
+
+                using (System.IO.StreamWriter file =
+        new System.IO.StreamWriter(@imgDirEmail + "GUIDLookup.txt", true))
+                {
+                    file.WriteLine("Email:GUID");
+                }
+
+                Label_Progress.Text = "Status: Signing Images...";
+
+                await Task.Run(() =>
+                {
+                    foreach (string email in EmailList)
+                    {
+                        PrepareEmail(email);
+                    }
+                });
+
+                int count = 0;
+                int progress = 0;
+                Label_Progress.Text = "Status: Sending 0 / " + readyEmail.Count;
+
+                foreach (var email in readyEmail)
+                {
+                    MailMessage message = new MailMessage();
+                    message.To.Add(email.Key);
+                    message.From = new MailAddress(TextBox_SMTPUsername.Text);
+                    message.Subject = TextBox_Email_Subject.Text;
+                    message.IsBodyHtml = false;
+                    message.Body = TextBox_Email_Body.Text;
+                    Attachment a = new Attachment(email.Value);
+                    message.Attachments.Add(a);
+                    bool kill = false;
+
+                    await Task.Run(() =>
+                    {
+                        try
+                        {
+                            client.Send(message);
+                            count++;
+                        }
+                        catch (Exception)
+                        {
+                            DialogResult dialogResult = MessageBox.Show("Failed to send email: " + email.Key
+                                + Environment.NewLine + "Continue?", "Error", MessageBoxButtons.YesNo);
+                            if (dialogResult == DialogResult.No)
+                            {
+                                kill = true;
+                            }
+                        }
+                    });
+
+                    if (kill)
+                    {
+                        GroupBox_Email_Email.Enabled = true;
+                        GroupBox_Email_ImageData.Enabled = true;
+                        GroupBox_Email_Login.Enabled = true;
+                        return;
+                    }
+
+                    progress++;
+                    Label_Progress.Text = "Status: Sending " + progress + " / " + readyEmail.Count;
+
+                }
+
+                MessageBox.Show("Sent " + count + " emails!");
+                GroupBox_Email_Email.Enabled = true;
+                GroupBox_Email_ImageData.Enabled = true;
+                GroupBox_Email_Login.Enabled = true;
+            }
+        }
+
+        private void PrepareEmail(string email)
+        {
+            MainImage = new Bitmap(@TextBox_ImageFileDirEmail.Text);
+            string CurrentGUID = Guid.NewGuid().ToString();
+            string EncryptText = CurrentGUID;
+            char[] CurrentNameArray = CurrentGUID.ToArray();
+
+            #region IMG-Stego Logic
+            string[] type = new string[] { "t", "t", "1" };
+
+            for (int j = 0; j < 3; j++)
+            {
+                Color pixel = MainImage.GetPixel(MainImage.Width - j - 1, MainImage.Height - 1);
+                pixel = embed(pixel, getStringBits(type[j]));
+                MainImage.SetPixel(MainImage.Width - j - 1, MainImage.Height - 1, pixel);
+            }
+
+            string a = Convert.ToString(EncryptText.Length);
+            a = a.PadLeft(13, '0');
+            char[] b = a.ToArray();
+
+            for (int j = 3; j < 16; j++)
+            {
+                string aString = Convert.ToString(b[j - 3]);
+                Color pixel = MainImage.GetPixel(MainImage.Width - j - 1, MainImage.Height - 1);
+                pixel = embed(pixel, getStringBits(aString));
+                MainImage.SetPixel(MainImage.Width - j - 1, MainImage.Height - 1, pixel);
+            }
+
+            int k = 0;
+
+            for (int i = 0; i < MainImage.Height; i++)
+            {
+                for (int j = 0; j < MainImage.Width; j++)
+                {
+                    if (k < EncryptText.Length)
+                    {
+                        string msg = Convert.ToString(CurrentNameArray[i + j]);
+                        Color pixel = MainImage.GetPixel(j, i);
+                        pixel = embed(pixel, getStringBits(msg));
+                        MainImage.SetPixel(j, i, pixel);
+                        k++;
+                    }
+                }
+            }
+            #endregion
+
+            Directory.CreateDirectory(imgDirEmail + email);
+            string SavePath = imgDirEmail + email + "\\";
+            string HoldPath = TextBox_ImageFileDirEmail.Text.Substring(TextBox_ImageFileDirEmail.Text.LastIndexOf("\\"));
+            SavePath += HoldPath;
+
+            try
+            {
+                MainImage.Save(SavePath);
+
+                using (System.IO.StreamWriter file =
+        new System.IO.StreamWriter(imgDirEmail + "GUIDLookup.txt", true))
+                {
+                    file.WriteLine(email + ":" + CurrentGUID);
+                }
+
+                readyEmail.Add(email, SavePath);
+            }
+            catch (IOException ioe)
+            {
+                MessageBox.Show("Error while writing file!" + ioe.Message + Environment.NewLine + "Ignored: " + email);
+            }
+        }
+
+        public bool EmailInvalid(string email)
+        {
+            try
+            {
+                MailAddress m = new MailAddress(email);
+                return false;
+            }
+            catch (FormatException)
+            {
+                invalidEmails.Add(email);
+                return true;
+            }
         }
         #endregion
     }

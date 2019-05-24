@@ -2,6 +2,8 @@
 
 > Signs image files to catch naughty leakers ;)
 
+> Now with email sending support!
+
 ## Description
 
 Download: https://github.com/ReignOfComputer/Stegotreon/releases
@@ -9,6 +11,8 @@ Download: https://github.com/ReignOfComputer/Stegotreon/releases
 Stegotreon takes a PNG file and a line-separated text file, then automatically generates files with text hidden inside through steganograpy.
 
 Artists on Patreon (and elsewhere) have an issue where their art is leaked outside the paywall. Some have resorted to sending image files directly to patrons, though leaks still happen. Stegotreon creates unique variants of the image file that can be reversed to identify the leaker, even if the file name is changed.
+
+**In v1.1, Stegotreon now has the ability to send emails on your behalf using SMTP. See configuration details below.**
 
 <p align="center"> <img src="Screenshot.png"> </p>
 
@@ -40,6 +44,30 @@ email3@example.com
 
 If the records are in Excel, you can select the entire column and paste it into Notepad and that should do the trick.
 
+## Email System
+
+From v1.1, Stegotreon can now sign and email images automatically. Navigate to the Email System tab, then fill out the SMTP server information. Generally, this information can be found doing a simple online search, but here are the two most common ones:
+
+**Microsoft (Outlook, Live, Hotmail)**  
+SMTP Server: smtp.office365.com  
+SMTP Port: 587  
+SMTP Username: (e.g.) stegotreon@outlook.com  
+SMTP Password: Your account password - if you have 2FA you need to use a [generated app password](https://account.microsoft.com/security)
+
+**Gmail**  
+SMTP Server: smtp.gmail.com  
+SMTP Port: 587  
+SMTP Username: (e.g.) stegotreon@gmail.com  
+SMTP Password: Your account password - if you have 2FA you need to use a [generated app password](https://myaccount.google.com/apppasswords)
+
+Then, select the image file and the .txt list of email addresses. Type a Subject and Email Body, then press Send when you're ready.
+
+This automatically signs the image file (in GUID format), creating folders for each email address with the image filename being intact. It will then email the corresponding attachment to each person and automatically generate the GUID Lookup text file.
+
+If the image is leaked, download it and use the Extract tab to get the GUID. Then, look up which email it belongs to in the generated GUIDLookup.txt.
+
+<p align="center" height="400"> <img src="Screenshot-Email.png"> </p>
+
 ## Extraction
 
 1. Hit the Extract Tab.
@@ -49,7 +77,7 @@ If the records are in Excel, you can select the entire column and paste it into 
 ## Limitations
 
 1. Steganograpy is easily defeated if any post-processing is done to the image, especially if it is compressed or converted to JPEG.
-2. While this tool drastically decreases the time it takes to process batch steganograpy, it is still very time consuming to send the files.
+2. ~~While this tool drastically decreases the time it takes to process batch steganograpy, it is still very time consuming to send the files.~~
 3. No error handling exists - expect errors if you don't use the tool right.
 4. This tool only handles PNG-24 (.png) files.
 

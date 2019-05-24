@@ -52,25 +52,54 @@
             this.TextBox_ImageFileDir = new System.Windows.Forms.TextBox();
             this.Label_StegoList = new System.Windows.Forms.Label();
             this.Label_ImageFile = new System.Windows.Forms.Label();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.TabPage_Extract = new System.Windows.Forms.TabPage();
             this.TextBox_Result = new System.Windows.Forms.TextBox();
             this.Label_Result = new System.Windows.Forms.Label();
             this.Button_Extract = new System.Windows.Forms.Button();
             this.Button_ImageFileExtract = new System.Windows.Forms.Button();
             this.TextBox_ImageFileExtractDir = new System.Windows.Forms.TextBox();
             this.Label_ImageFileExtract = new System.Windows.Forms.Label();
+            this.TabPage_Email = new System.Windows.Forms.TabPage();
+            this.GroupBox_Email_Email = new System.Windows.Forms.GroupBox();
+            this.Label_EmailBody = new System.Windows.Forms.Label();
+            this.TextBox_Email_Body = new System.Windows.Forms.TextBox();
+            this.Label_EmailSubject = new System.Windows.Forms.Label();
+            this.Button_EmailSend = new System.Windows.Forms.Button();
+            this.TextBox_Email_Subject = new System.Windows.Forms.TextBox();
+            this.GroupBox_Email_ImageData = new System.Windows.Forms.GroupBox();
+            this.Button_ImageFileEmail = new System.Windows.Forms.Button();
+            this.Button_EmailList = new System.Windows.Forms.Button();
+            this.Label_ImageFileEmail = new System.Windows.Forms.Label();
+            this.TextBox_StegoListDirEmail = new System.Windows.Forms.TextBox();
+            this.TextBox_ImageFileDirEmail = new System.Windows.Forms.TextBox();
+            this.Label_EmailList = new System.Windows.Forms.Label();
+            this.GroupBox_Email_Login = new System.Windows.Forms.GroupBox();
+            this.TextBox_SMTPPassword = new System.Windows.Forms.TextBox();
+            this.TextBox_SMTPUsername = new System.Windows.Forms.TextBox();
+            this.TextBox_SMTPPort = new System.Windows.Forms.TextBox();
+            this.TextBox_SMTPServer = new System.Windows.Forms.TextBox();
+            this.Label_SMTPPassword = new System.Windows.Forms.Label();
+            this.Label_SMTPUsername = new System.Windows.Forms.Label();
+            this.Label_SMTPPort = new System.Windows.Forms.Label();
+            this.Label_SMTPServer = new System.Windows.Forms.Label();
+            this.Label_Progress = new System.Windows.Forms.Label();
             this.TabControl_Main.SuspendLayout();
             this.TabPage_Embed.SuspendLayout();
             this.GroupBox_StegoType.SuspendLayout();
             this.GroupBox_Naming.SuspendLayout();
             this.GroupBox_OutputType.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.TabPage_Extract.SuspendLayout();
+            this.TabPage_Email.SuspendLayout();
+            this.GroupBox_Email_Email.SuspendLayout();
+            this.GroupBox_Email_ImageData.SuspendLayout();
+            this.GroupBox_Email_Login.SuspendLayout();
             this.SuspendLayout();
             // 
             // TabControl_Main
             // 
             this.TabControl_Main.Controls.Add(this.TabPage_Embed);
-            this.TabControl_Main.Controls.Add(this.tabPage2);
+            this.TabControl_Main.Controls.Add(this.TabPage_Extract);
+            this.TabControl_Main.Controls.Add(this.TabPage_Email);
             this.TabControl_Main.Location = new System.Drawing.Point(12, 12);
             this.TabControl_Main.Name = "TabControl_Main";
             this.TabControl_Main.SelectedIndex = 0;
@@ -316,21 +345,21 @@
             this.Label_ImageFile.TabIndex = 0;
             this.Label_ImageFile.Text = "Image File: ";
             // 
-            // tabPage2
+            // TabPage_Extract
             // 
-            this.tabPage2.Controls.Add(this.TextBox_Result);
-            this.tabPage2.Controls.Add(this.Label_Result);
-            this.tabPage2.Controls.Add(this.Button_Extract);
-            this.tabPage2.Controls.Add(this.Button_ImageFileExtract);
-            this.tabPage2.Controls.Add(this.TextBox_ImageFileExtractDir);
-            this.tabPage2.Controls.Add(this.Label_ImageFileExtract);
-            this.tabPage2.Location = new System.Drawing.Point(8, 39);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(680, 676);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Extract";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.TabPage_Extract.Controls.Add(this.TextBox_Result);
+            this.TabPage_Extract.Controls.Add(this.Label_Result);
+            this.TabPage_Extract.Controls.Add(this.Button_Extract);
+            this.TabPage_Extract.Controls.Add(this.Button_ImageFileExtract);
+            this.TabPage_Extract.Controls.Add(this.TextBox_ImageFileExtractDir);
+            this.TabPage_Extract.Controls.Add(this.Label_ImageFileExtract);
+            this.TabPage_Extract.Location = new System.Drawing.Point(8, 39);
+            this.TabPage_Extract.Name = "TabPage_Extract";
+            this.TabPage_Extract.Padding = new System.Windows.Forms.Padding(3);
+            this.TabPage_Extract.Size = new System.Drawing.Size(680, 676);
+            this.TabPage_Extract.TabIndex = 1;
+            this.TabPage_Extract.Text = "Extract";
+            this.TabPage_Extract.UseVisualStyleBackColor = true;
             // 
             // TextBox_Result
             // 
@@ -385,6 +414,240 @@
             this.Label_ImageFileExtract.TabIndex = 10;
             this.Label_ImageFileExtract.Text = "Image File: ";
             // 
+            // TabPage_Email
+            // 
+            this.TabPage_Email.Controls.Add(this.Label_Progress);
+            this.TabPage_Email.Controls.Add(this.GroupBox_Email_Email);
+            this.TabPage_Email.Controls.Add(this.GroupBox_Email_ImageData);
+            this.TabPage_Email.Controls.Add(this.GroupBox_Email_Login);
+            this.TabPage_Email.Location = new System.Drawing.Point(8, 39);
+            this.TabPage_Email.Name = "TabPage_Email";
+            this.TabPage_Email.Padding = new System.Windows.Forms.Padding(3);
+            this.TabPage_Email.Size = new System.Drawing.Size(680, 676);
+            this.TabPage_Email.TabIndex = 2;
+            this.TabPage_Email.Text = "Email System";
+            this.TabPage_Email.UseVisualStyleBackColor = true;
+            // 
+            // GroupBox_Email_Email
+            // 
+            this.GroupBox_Email_Email.Controls.Add(this.Label_EmailBody);
+            this.GroupBox_Email_Email.Controls.Add(this.TextBox_Email_Body);
+            this.GroupBox_Email_Email.Controls.Add(this.Label_EmailSubject);
+            this.GroupBox_Email_Email.Controls.Add(this.Button_EmailSend);
+            this.GroupBox_Email_Email.Controls.Add(this.TextBox_Email_Subject);
+            this.GroupBox_Email_Email.Location = new System.Drawing.Point(6, 389);
+            this.GroupBox_Email_Email.Name = "GroupBox_Email_Email";
+            this.GroupBox_Email_Email.Size = new System.Drawing.Size(666, 237);
+            this.GroupBox_Email_Email.TabIndex = 12;
+            this.GroupBox_Email_Email.TabStop = false;
+            this.GroupBox_Email_Email.Text = "Email";
+            // 
+            // Label_EmailBody
+            // 
+            this.Label_EmailBody.AutoSize = true;
+            this.Label_EmailBody.Location = new System.Drawing.Point(78, 96);
+            this.Label_EmailBody.Name = "Label_EmailBody";
+            this.Label_EmailBody.Size = new System.Drawing.Size(67, 25);
+            this.Label_EmailBody.TabIndex = 13;
+            this.Label_EmailBody.Text = "Body:";
+            // 
+            // TextBox_Email_Body
+            // 
+            this.TextBox_Email_Body.Location = new System.Drawing.Point(151, 93);
+            this.TextBox_Email_Body.Multiline = true;
+            this.TextBox_Email_Body.Name = "TextBox_Email_Body";
+            this.TextBox_Email_Body.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.TextBox_Email_Body.Size = new System.Drawing.Size(369, 128);
+            this.TextBox_Email_Body.TabIndex = 14;
+            // 
+            // Label_EmailSubject
+            // 
+            this.Label_EmailSubject.AutoSize = true;
+            this.Label_EmailSubject.Location = new System.Drawing.Point(55, 42);
+            this.Label_EmailSubject.Name = "Label_EmailSubject";
+            this.Label_EmailSubject.Size = new System.Drawing.Size(90, 25);
+            this.Label_EmailSubject.TabIndex = 11;
+            this.Label_EmailSubject.Text = "Subject:";
+            // 
+            // Button_EmailSend
+            // 
+            this.Button_EmailSend.Location = new System.Drawing.Point(529, 120);
+            this.Button_EmailSend.Name = "Button_EmailSend";
+            this.Button_EmailSend.Size = new System.Drawing.Size(123, 53);
+            this.Button_EmailSend.TabIndex = 10;
+            this.Button_EmailSend.Text = "Send";
+            this.Button_EmailSend.UseVisualStyleBackColor = true;
+            this.Button_EmailSend.Click += new System.EventHandler(this.Button_EmailSend_Click);
+            // 
+            // TextBox_Email_Subject
+            // 
+            this.TextBox_Email_Subject.Location = new System.Drawing.Point(151, 39);
+            this.TextBox_Email_Subject.Name = "TextBox_Email_Subject";
+            this.TextBox_Email_Subject.Size = new System.Drawing.Size(369, 31);
+            this.TextBox_Email_Subject.TabIndex = 12;
+            // 
+            // GroupBox_Email_ImageData
+            // 
+            this.GroupBox_Email_ImageData.Controls.Add(this.Button_ImageFileEmail);
+            this.GroupBox_Email_ImageData.Controls.Add(this.Button_EmailList);
+            this.GroupBox_Email_ImageData.Controls.Add(this.Label_ImageFileEmail);
+            this.GroupBox_Email_ImageData.Controls.Add(this.TextBox_StegoListDirEmail);
+            this.GroupBox_Email_ImageData.Controls.Add(this.TextBox_ImageFileDirEmail);
+            this.GroupBox_Email_ImageData.Controls.Add(this.Label_EmailList);
+            this.GroupBox_Email_ImageData.Location = new System.Drawing.Point(8, 217);
+            this.GroupBox_Email_ImageData.Name = "GroupBox_Email_ImageData";
+            this.GroupBox_Email_ImageData.Size = new System.Drawing.Size(666, 166);
+            this.GroupBox_Email_ImageData.TabIndex = 11;
+            this.GroupBox_Email_ImageData.TabStop = false;
+            this.GroupBox_Email_ImageData.Text = "Image Data";
+            // 
+            // Button_ImageFileEmail
+            // 
+            this.Button_ImageFileEmail.Location = new System.Drawing.Point(527, 30);
+            this.Button_ImageFileEmail.Name = "Button_ImageFileEmail";
+            this.Button_ImageFileEmail.Size = new System.Drawing.Size(123, 53);
+            this.Button_ImageFileEmail.TabIndex = 7;
+            this.Button_ImageFileEmail.Text = "Browse";
+            this.Button_ImageFileEmail.UseVisualStyleBackColor = true;
+            this.Button_ImageFileEmail.Click += new System.EventHandler(this.Button_ImageFileEmail_Click);
+            // 
+            // Button_EmailList
+            // 
+            this.Button_EmailList.Location = new System.Drawing.Point(527, 92);
+            this.Button_EmailList.Name = "Button_EmailList";
+            this.Button_EmailList.Size = new System.Drawing.Size(123, 53);
+            this.Button_EmailList.TabIndex = 10;
+            this.Button_EmailList.Text = "Browse";
+            this.Button_EmailList.UseVisualStyleBackColor = true;
+            this.Button_EmailList.Click += new System.EventHandler(this.Button_EmailList_Click);
+            // 
+            // Label_ImageFileEmail
+            // 
+            this.Label_ImageFileEmail.AutoSize = true;
+            this.Label_ImageFileEmail.Location = new System.Drawing.Point(20, 47);
+            this.Label_ImageFileEmail.Name = "Label_ImageFileEmail";
+            this.Label_ImageFileEmail.Size = new System.Drawing.Size(123, 25);
+            this.Label_ImageFileEmail.TabIndex = 5;
+            this.Label_ImageFileEmail.Text = "Image File: ";
+            // 
+            // TextBox_StegoListDirEmail
+            // 
+            this.TextBox_StegoListDirEmail.Location = new System.Drawing.Point(149, 103);
+            this.TextBox_StegoListDirEmail.Name = "TextBox_StegoListDirEmail";
+            this.TextBox_StegoListDirEmail.ReadOnly = true;
+            this.TextBox_StegoListDirEmail.Size = new System.Drawing.Size(369, 31);
+            this.TextBox_StegoListDirEmail.TabIndex = 9;
+            // 
+            // TextBox_ImageFileDirEmail
+            // 
+            this.TextBox_ImageFileDirEmail.Location = new System.Drawing.Point(149, 44);
+            this.TextBox_ImageFileDirEmail.Name = "TextBox_ImageFileDirEmail";
+            this.TextBox_ImageFileDirEmail.ReadOnly = true;
+            this.TextBox_ImageFileDirEmail.Size = new System.Drawing.Size(369, 31);
+            this.TextBox_ImageFileDirEmail.TabIndex = 6;
+            // 
+            // Label_EmailList
+            // 
+            this.Label_EmailList.AutoSize = true;
+            this.Label_EmailList.Location = new System.Drawing.Point(23, 109);
+            this.Label_EmailList.Name = "Label_EmailList";
+            this.Label_EmailList.Size = new System.Drawing.Size(117, 25);
+            this.Label_EmailList.TabIndex = 8;
+            this.Label_EmailList.Text = "Email List: ";
+            // 
+            // GroupBox_Email_Login
+            // 
+            this.GroupBox_Email_Login.Controls.Add(this.TextBox_SMTPPassword);
+            this.GroupBox_Email_Login.Controls.Add(this.TextBox_SMTPUsername);
+            this.GroupBox_Email_Login.Controls.Add(this.TextBox_SMTPPort);
+            this.GroupBox_Email_Login.Controls.Add(this.TextBox_SMTPServer);
+            this.GroupBox_Email_Login.Controls.Add(this.Label_SMTPPassword);
+            this.GroupBox_Email_Login.Controls.Add(this.Label_SMTPUsername);
+            this.GroupBox_Email_Login.Controls.Add(this.Label_SMTPPort);
+            this.GroupBox_Email_Login.Controls.Add(this.Label_SMTPServer);
+            this.GroupBox_Email_Login.Location = new System.Drawing.Point(7, 7);
+            this.GroupBox_Email_Login.Name = "GroupBox_Email_Login";
+            this.GroupBox_Email_Login.Size = new System.Drawing.Size(667, 204);
+            this.GroupBox_Email_Login.TabIndex = 0;
+            this.GroupBox_Email_Login.TabStop = false;
+            this.GroupBox_Email_Login.Text = "Login";
+            // 
+            // TextBox_SMTPPassword
+            // 
+            this.TextBox_SMTPPassword.Location = new System.Drawing.Point(200, 154);
+            this.TextBox_SMTPPassword.Name = "TextBox_SMTPPassword";
+            this.TextBox_SMTPPassword.PasswordChar = '*';
+            this.TextBox_SMTPPassword.Size = new System.Drawing.Size(450, 31);
+            this.TextBox_SMTPPassword.TabIndex = 8;
+            // 
+            // TextBox_SMTPUsername
+            // 
+            this.TextBox_SMTPUsername.Location = new System.Drawing.Point(200, 117);
+            this.TextBox_SMTPUsername.Name = "TextBox_SMTPUsername";
+            this.TextBox_SMTPUsername.Size = new System.Drawing.Size(450, 31);
+            this.TextBox_SMTPUsername.TabIndex = 7;
+            // 
+            // TextBox_SMTPPort
+            // 
+            this.TextBox_SMTPPort.Location = new System.Drawing.Point(200, 81);
+            this.TextBox_SMTPPort.Name = "TextBox_SMTPPort";
+            this.TextBox_SMTPPort.Size = new System.Drawing.Size(450, 31);
+            this.TextBox_SMTPPort.TabIndex = 6;
+            this.TextBox_SMTPPort.Text = "587";
+            // 
+            // TextBox_SMTPServer
+            // 
+            this.TextBox_SMTPServer.Location = new System.Drawing.Point(200, 44);
+            this.TextBox_SMTPServer.Name = "TextBox_SMTPServer";
+            this.TextBox_SMTPServer.Size = new System.Drawing.Size(450, 31);
+            this.TextBox_SMTPServer.TabIndex = 5;
+            this.TextBox_SMTPServer.Text = "smtp.office365.com";
+            // 
+            // Label_SMTPPassword
+            // 
+            this.Label_SMTPPassword.AutoSize = true;
+            this.Label_SMTPPassword.Location = new System.Drawing.Point(10, 160);
+            this.Label_SMTPPassword.Name = "Label_SMTPPassword";
+            this.Label_SMTPPassword.Size = new System.Drawing.Size(177, 25);
+            this.Label_SMTPPassword.TabIndex = 4;
+            this.Label_SMTPPassword.Text = "SMTP Password:";
+            // 
+            // Label_SMTPUsername
+            // 
+            this.Label_SMTPUsername.AutoSize = true;
+            this.Label_SMTPUsername.Location = new System.Drawing.Point(6, 123);
+            this.Label_SMTPUsername.Name = "Label_SMTPUsername";
+            this.Label_SMTPUsername.Size = new System.Drawing.Size(181, 25);
+            this.Label_SMTPUsername.TabIndex = 3;
+            this.Label_SMTPUsername.Text = "SMTP Username:";
+            // 
+            // Label_SMTPPort
+            // 
+            this.Label_SMTPPort.AutoSize = true;
+            this.Label_SMTPPort.Location = new System.Drawing.Point(61, 84);
+            this.Label_SMTPPort.Name = "Label_SMTPPort";
+            this.Label_SMTPPort.Size = new System.Drawing.Size(122, 25);
+            this.Label_SMTPPort.TabIndex = 2;
+            this.Label_SMTPPort.Text = "SMTP Port:";
+            // 
+            // Label_SMTPServer
+            // 
+            this.Label_SMTPServer.AutoSize = true;
+            this.Label_SMTPServer.Location = new System.Drawing.Point(37, 50);
+            this.Label_SMTPServer.Name = "Label_SMTPServer";
+            this.Label_SMTPServer.Size = new System.Drawing.Size(146, 25);
+            this.Label_SMTPServer.TabIndex = 1;
+            this.Label_SMTPServer.Text = "SMTP Server:";
+            // 
+            // Label_Progress
+            // 
+            this.Label_Progress.AutoSize = true;
+            this.Label_Progress.Location = new System.Drawing.Point(6, 638);
+            this.Label_Progress.Name = "Label_Progress";
+            this.Label_Progress.Size = new System.Drawing.Size(147, 25);
+            this.Label_Progress.TabIndex = 15;
+            this.Label_Progress.Text = "Status: Ready";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -403,8 +666,16 @@
             this.GroupBox_Naming.PerformLayout();
             this.GroupBox_OutputType.ResumeLayout(false);
             this.GroupBox_OutputType.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.TabPage_Extract.ResumeLayout(false);
+            this.TabPage_Extract.PerformLayout();
+            this.TabPage_Email.ResumeLayout(false);
+            this.TabPage_Email.PerformLayout();
+            this.GroupBox_Email_Email.ResumeLayout(false);
+            this.GroupBox_Email_Email.PerformLayout();
+            this.GroupBox_Email_ImageData.ResumeLayout(false);
+            this.GroupBox_Email_ImageData.PerformLayout();
+            this.GroupBox_Email_Login.ResumeLayout(false);
+            this.GroupBox_Email_Login.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -424,7 +695,7 @@
         private System.Windows.Forms.TextBox TextBox_ImageFileDir;
         private System.Windows.Forms.Label Label_StegoList;
         private System.Windows.Forms.Label Label_ImageFile;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage TabPage_Extract;
         private System.Windows.Forms.TextBox TextBox_Result;
         private System.Windows.Forms.Label Label_Result;
         private System.Windows.Forms.Button Button_Extract;
@@ -441,6 +712,30 @@
         private System.Windows.Forms.GroupBox GroupBox_OutputType;
         private System.Windows.Forms.ProgressBar EmbedProgressBar;
         private System.Windows.Forms.RadioButton RadioButton_AppendName;
+        private System.Windows.Forms.TabPage TabPage_Email;
+        private System.Windows.Forms.GroupBox GroupBox_Email_Login;
+        private System.Windows.Forms.Label Label_SMTPPassword;
+        private System.Windows.Forms.Label Label_SMTPUsername;
+        private System.Windows.Forms.Label Label_SMTPPort;
+        private System.Windows.Forms.Label Label_SMTPServer;
+        private System.Windows.Forms.TextBox TextBox_SMTPPassword;
+        private System.Windows.Forms.TextBox TextBox_SMTPUsername;
+        private System.Windows.Forms.TextBox TextBox_SMTPPort;
+        private System.Windows.Forms.TextBox TextBox_SMTPServer;
+        private System.Windows.Forms.GroupBox GroupBox_Email_Email;
+        private System.Windows.Forms.Label Label_EmailBody;
+        private System.Windows.Forms.TextBox TextBox_Email_Body;
+        private System.Windows.Forms.Label Label_EmailSubject;
+        private System.Windows.Forms.Button Button_EmailSend;
+        private System.Windows.Forms.TextBox TextBox_Email_Subject;
+        private System.Windows.Forms.GroupBox GroupBox_Email_ImageData;
+        private System.Windows.Forms.Button Button_ImageFileEmail;
+        private System.Windows.Forms.Button Button_EmailList;
+        private System.Windows.Forms.Label Label_ImageFileEmail;
+        private System.Windows.Forms.TextBox TextBox_StegoListDirEmail;
+        private System.Windows.Forms.TextBox TextBox_ImageFileDirEmail;
+        private System.Windows.Forms.Label Label_EmailList;
+        private System.Windows.Forms.Label Label_Progress;
     }
 }
 
