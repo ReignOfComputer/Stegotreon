@@ -66,7 +66,7 @@ This automatically signs the image file (in GUID format), creating folders for e
 
 If the image is leaked, download it and use the Extract tab to get the GUID. Then, look up which email it belongs to in the generated GUIDLookup.txt.
 
-<p align="center" height="400"> <img src="Screenshot-Email.png"> </p>
+<p align="center"> <img height="400" src="Screenshot-Email.png"> </p>
 
 ## Extraction
 
